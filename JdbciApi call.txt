@@ -1,0 +1,59 @@
+/**********************************************************************
+*	Program:	SQLcode 	
+* 	Purpose: 	To analyze and document JDBC API calls.
+*	Programmer:	Ryan Cowger			
+*	Class:		PRG/421r13, Java Programming II			
+*	Instructor:	Jeff		
+*	Creation Date:	07/04/19	
+*
+* Comments: The purpose of the JDBC API calls in this program
+*           is to retrieve data from a relational database.
+*           To complete this assignment, analyze the code and replace
+*           the numbered comments as instructed below. 
+***********************************************************************/
+package sqlcodeexample;
+
+
+// 1. THE REASON FOR IMPORTING THE FOLLOWING LIBRARIES IS java.sql.Connection is for establishing a connection to a database
+// 2. When you are using JDBC outside of an application server, the DriverManager class manages the establishment of connections.
+// 3. An SQLException can occur both in the driver and the database. When such an exception occurs, an object of type SQLException will be passed to the catch clause.
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class SQLCodeExample  {
+   public static void main (String[ ] args)  {
+
+      try {								
+         String host  = "jdbc:mysql://localhost/STUDENT";                            
+         String uName = "bsmith"; 
+         String uPass = "roxie"; 
+   
+         // 2. THE PURPOSE (RESULT) OF THE FOLLOWING API CALL IS this establishes a connection to the host with the user name and password.
+         Connection conn = DriverManager.getConnection(host, uName, uPass);    
+         
+         // 3. THE PURPOSE (RESULT) OF THE FOLLOWING API CALLS IS The below statment executes a query by selecting the database Stu_id Then it gets the table Stu_Name from Row Stu_Class_1. I would have to see the database to know that for sure. 
+         Statement stmt = conn.createStatement();                         
+         String sql = "select  Stu_id, Stu_Name from Stu_Class_1";                                       
+         ResultSet rs = stmt.executeQuery (sql);                                   
+                                         
+         System.out.println("Displaying student information: ");     
+    
+         
+         // 4. THE RESULT OF THE FOLLOWING API CALLS IS It would be what ever is stored in the Student_id is associated with name Then it would say the students name.
+         while (rs.next()) {
+
+             System.out.println ("Student id " + rs.getString("Stu_id");  
+             System.out.println (" is associated with student name " + rs.getString("Stu_Name");  
+         }    	                                                               
+   
+      } 
+      // 5. THE PURPOSE OF THE FOLLOWING CATCH BLOCK Is This is the error you recieve if the program fails! 
+      catch ( SQLException err ) {
+         System.out.println(err.getMessage());
+
+      }
+   }
+}
+
